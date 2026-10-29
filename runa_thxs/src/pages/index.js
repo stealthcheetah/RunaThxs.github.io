@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { Playfair_Display, Poppins } from "next/font/google";
 import { useRouter } from "next/router";
 
+// Set in next.config.mjs (empty string when the site is served from the domain root)
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const playfair = Playfair_Display({
   weight: ["500", "600", "700"],
   subsets: ["latin"],
@@ -18,11 +21,12 @@ const heartImages = [
   "/Emoji/archivo_31.png",
   "/Emoji/archivo_34.png",
   "/Emoji/Leon_Kennedy_emote_7.png",
-];
+].map((p) => BASE + p);
 
+// Small inline image used in place of a text emoji
 const Emj = ({ name }) => (
   <img
-    src={`/Emoji/${name}.png`}
+    src={`${BASE}/Emoji/${name}.png`}
     alt=""
     style={{ display: "inline-block", height: "1.1em", width: "auto", verticalAlign: "-0.2em", marginLeft: 6 }}
   />
@@ -30,6 +34,7 @@ const Emj = ({ name }) => (
 
 const MAX_NO_CLICKS = 4;
 
+// Index = number of times "No" has been clicked
 const noLabels = [
   <>No <Emj name="archivo_24" /></>,
   <>Are you sure? <Emj name="archivo_17" /></>,
@@ -54,6 +59,7 @@ export default function Home() {
   const [noClicks, setNoClicks] = useState(0);
   const [hearts, setHearts] = useState([]);
 
+  // Floating hearts (client only, so no hydration mismatch)
   useEffect(() => {
     let id = 0;
     const interval = setInterval(() => {
@@ -114,7 +120,7 @@ export default function Home() {
 
       <div className="card">
         <div className="emoji">
-          <img src="/Emoji/Leon_Kennedy_emote_13.png" alt="Leon" className="emoji-img" />
+          <img src={`${BASE}/Emoji/Leon_Kennedy_emote_13.png`} alt="Leon" className="emoji-img" />
         </div>
 
         <h2 className={playfair.className}>
@@ -287,7 +293,7 @@ export default function Home() {
 
         .hint {
           margin-top: 28px;
-          min-height: 20px;
+          min-height: 28px;
           font-size: 18px;
           color: #6b6b6b;
           font-style: italic;

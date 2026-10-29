@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { Playfair_Display, Poppins } from "next/font/google";
 
+// Set in next.config.mjs (empty string when the site is served from the domain root)
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const playfair = Playfair_Display({
   weight: ["500", "600", "700"],
   subsets: ["latin"],
@@ -18,7 +21,7 @@ const heartImages = [
   "/Emoji/archivo_29.png",
   "/Emoji/Leon_Kennedy_emote_1.png",
   "/Emoji/Leon_Kennedy_emote_11.png",
-];
+].map((p) => BASE + p);
 
 export default function Gift() {
   const [hearts, setHearts] = useState([]);
@@ -61,7 +64,7 @@ export default function Gift() {
 
       <div className="card">
         <div className="emoji">
-          <img src="/Emoji/Leon_Kennedy_emote_9.png" alt="Leon" className="emoji-img" />
+          <img src={`${BASE}/Emoji/Leon_Kennedy_emote_9.png`} alt="Leon" className="emoji-img" />
         </div>
 
         <h2 className={playfair.className}>
@@ -166,7 +169,7 @@ export default function Gift() {
         }
 
         .message {
-          font-size: 18px;
+          font-size: 15px;
           color: #6b6b6b;
           line-height: 1.6;
           margin: 0;
