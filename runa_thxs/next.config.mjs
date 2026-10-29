@@ -1,7 +1,7 @@
 // Repo is stealthcheetah/RunaThxs.github.io, so GitHub serves it at
 // https://stealthcheetah.github.io/RunaThxs.github.io/
 // If you rename the repo to stealthcheetah.github.io (root site), set this to "".
-const BASE_PATH = "/RunaThxs.github.io";
+const BASE_PATH = "/RunaThxs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
