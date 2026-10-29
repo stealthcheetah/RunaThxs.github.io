@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Playfair_Display, Poppins } from "next/font/google";
+import { useRouter } from "next/router";
 
 const playfair = Playfair_Display({
   weight: ["500", "600", "700"],
@@ -15,7 +16,6 @@ const poppins = Poppins({
 
 const heartImages = [
   "/Emoji/archivo_31.png",
-  "/Emoji/Leon_Kennedy_emote_11.png",
   "/Emoji/archivo_34.png",
   "/Emoji/Leon_Kennedy_emote_7.png",
 ];
@@ -24,27 +24,30 @@ const Emj = ({ name }) => (
   <img
     src={`/Emoji/${name}.png`}
     alt=""
-    style={{ height: "1.1em", width: "auto", verticalAlign: "-0.2em", marginLeft: 6 }}
+    style={{ display: "inline-block", height: "1.1em", width: "auto", verticalAlign: "-0.2em", marginLeft: 6 }}
   />
 );
 
 const MAX_NO_CLICKS = 4;
 
 const noLabels = [
-   <>No <Emj name="archivo_24" /></>,
+  <>No <Emj name="archivo_24" /></>,
   <>Are you sure? <Emj name="archivo_17" /></>,
   <>Really?? <Emj name="archivo_7" /></>,
   <>Okay fine... <Emj name="archivo_13" /></>,
- <>I didn't know you hate me that much <Emj name="Leon_Kennedy_emote_15" /></>,];
+  <>I didn't know you hate me that much <Emj name="Leon_Kennedy_emote_15" /></>,
+];
+
 const messages = [
   "",
-  <>You miss clicked <Emj name="archivo_7" /></>,
-  <>You really going to say no <Emj name="archivo_21" /></>,
-  <>Come on pick the righ  one <Emj name="archivo_15" /></>,
-  <>YOU MADE LEON ANGRY YOU BULLY <Emj name="Leon_Kennedy_emote_2" /></>,
+  <>You misclicked <Emj name="archivo_7" /></>,
+  <>You&apos;re really going to say no? <Emj name="archivo_21" /></>,
+  <>Come on, pick the right one <Emj name="archivo_15" /></>,
+  <>YOU MADE LEON ANGRY, YOU BULLY <Emj name="Leon_Kennedy_emote_2" /></>,
 ];
 
 export default function Home() {
+  const router = useRouter();
   const noSoundRef = useRef(null);
   const yesSoundRef = useRef(null);
 
@@ -87,8 +90,8 @@ export default function Home() {
     yesSoundRef.current?.play().catch(() => {});
 
     setTimeout(() => {
-      alert("I just wanted to say THANK YOU VERY MUCH!");
-    }, 500);
+      router.push("/gift");
+    }, 800);
   };
 
   const noDisabled = noClicks >= MAX_NO_CLICKS;
@@ -101,7 +104,6 @@ export default function Home() {
           className="heart"
           style={{
             left: `${h.left}vw`,
-            fontSize: `${h.size}px`,
             animationDuration: `${h.duration}s`,
             opacity: h.opacity,
           }}
@@ -112,12 +114,13 @@ export default function Home() {
 
       <div className="card">
         <div className="emoji">
-          <img src="/Emoji/Leon_Kennedy_emote_9.png" alt="Leon" className="emoji-img" />
+          <img src="/Emoji/Leon_Kennedy_emote_13.png" alt="Leon" className="emoji-img" />
         </div>
+
         <h2 className={playfair.className}>
           Runa
           <br />
-          I have a gift for you. Do you Accept?
+          I have a gift for you. Do you accept?
         </h2>
 
         <div className="buttons">
@@ -205,9 +208,18 @@ export default function Home() {
           opacity: 0.7;
         }
 
+        /* Emoji above the title.
+           Change text-align to: left | center | right */
         .emoji {
-          font-size: 68px;
           margin-bottom: 12px;
+          text-align: center;
+        }
+
+        .emoji-img {
+          width: 90px;
+          height: 90px;
+          object-fit: contain;
+          display: inline-block;
           animation: heartbeat 1.8s infinite;
         }
 
@@ -276,7 +288,7 @@ export default function Home() {
         .hint {
           margin-top: 28px;
           min-height: 20px;
-          font-size: 13px;
+          font-size: 18px;
           color: #6b6b6b;
           font-style: italic;
         }
@@ -289,25 +301,18 @@ export default function Home() {
           filter: blur(0.3px);
         }
 
-        @keyframes floatUp {
-          from { transform: translateY(0) scale(1); opacity: 1; }
-          to { transform: translateY(-120vh) scale(1.8); opacity: 0; }
-        }
-
-        .emoji-img {
-          width: 90px;
-          height: 90px;
-          object-fit: contain;
-        }
-
         .heart img {
           display: block;
           object-fit: contain;
         }
 
+        @keyframes floatUp {
+          from { transform: translateY(0) scale(1); opacity: 1; }
+          to { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+        }
+
         @media (max-width: 480px) {
           h2 { font-size: 23px; }
-          .emoji { font-size: 58px; }
         }
       `}</style>
     </div>
